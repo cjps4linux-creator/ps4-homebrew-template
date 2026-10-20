@@ -104,3 +104,7 @@ ps4-homebrew-template/
 - [OpenOrbis Toolchain](https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain)
 - [SpecterDev Tutorial Series](https://www.youtube.com/playlist?list=PL4EKilIHxxXAa6ZNTDlpydeJVi07aZ0uO)
 - [ConsoleMods Wiki](https://consolemods.org/wiki/PS4:OpenOrbis_SDK)
+
+---
+
+Built by **Conrad CJ Wilson** — [GitHub](https://github.com/cjps4linux-creator) · [LinkedIn](https://linkedin.com/in/conradcjwilson)
