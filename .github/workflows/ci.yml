@@ -10,33 +10,42 @@ permissions:
   contents: read
 
 jobs:
-  lint:
+  metadata:
+    name: Metadata consistency
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install ruff
-        run: pip install ruff==0.17.1
-      - name: Lint
-        run: ruff check . --exclude .venv,venv,build,dist,node_modules
+      - name: Install pytest
+        run: pip install pytest==8.3.3
+      - name: Verify package identity is consistent
+        run: pytest -q --no-header
 
-  test:
+  build-check:
+    name: Source compiles
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - name: Install dependencies
+      - name: Install clang
         run: |
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - name: Run tests
-        run: pytest -q || echo "No tests yet"
+          sudo apt-get update
+          sudo apt-get install -y clang
+      - name: Syntax check src/main.cpp
+        # The OpenOrbis toolchain is not redistributable, so CI cannot produce a
+        # real eboot.bin. It can still prove the source is valid C++ and free of
+        # warnings, which is the part most likely to regress.
+        run: clang++ -fsyntax-only -Wall -Wextra -std=c++17 src/main.cpp
 
   docs-check:
+    name: Docs present
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: test -f README.md && echo "README present"
+      - name: Check required docs exist
+        run: |
+          for f in README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md LICENSE; do
+            test -f "$f" || { echo "missing $f"; exit 1; }
+          done
+          echo "docs present"

@@ -7,7 +7,7 @@
 #define APP_TITLE       "PS4 Homebrew Template"
 #define APP_VERSION     "1.00"
 #define TITLE_ID        "BREW00084"
-#define CONTENT_ID      "IV0000-BREW00084_00-TEMPLATE000000"
+#define CONTENT_ID      "IV0000-BREW00084_00-TEMPLATE00000000"
 #define CATEGORY        "gd"  // gd = game/digital app, ac = application
 
 // Display settings
