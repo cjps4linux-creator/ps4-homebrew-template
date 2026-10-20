@@ -5,6 +5,15 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- **Test suite style.** `re.M` is replaced with the explicit `re.MULTILINE`
+  in the metadata consistency tests. This is cosmetic and changes no
+  behaviour; it keeps the file clean under Ruff's full default rule set
+  as well as the project's pinned `E4,E7,E9,F` selection.
+
 ## [1.0.0] — 2026-10-20
 
 ### Added

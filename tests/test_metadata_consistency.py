@@ -32,19 +32,19 @@ def _read(path: Path) -> str:
 def _makefile_value(key: str) -> str:
     # Capture to end of line — values contain spaces (e.g. "PS4 Homebrew Template").
     # The key is anchored with a word boundary so TITLE does not match TITLE_ID.
-    m = re.search(rf"^{key}\b\s*:=\s*(.+?)\s*$", _read(MAKEFILE), re.M)
+    m = re.search(rf"^{key}\b\s*:=\s*(.+?)\s*$", _read(MAKEFILE), re.MULTILINE)
     assert m, f"{key} not found in Makefile"
     return m.group(1)
 
 
 def _header_value(key: str) -> str:
-    m = re.search(rf'^#define\s+{key}\b\s+"([^"]*)"', _read(CONFIG_H), re.M)
+    m = re.search(rf'^#define\s+{key}\b\s+"([^"]*)"', _read(CONFIG_H), re.MULTILINE)
     assert m, f"{key} not found in template_config.h"
     return m.group(1)
 
 
 def _bat_value(key: str) -> str:
-    m = re.search(rf"^set {key}=(.*?)\s*$", _read(BUILD_BAT), re.M | re.I)
+    m = re.search(rf"^set {key}=(.*?)\s*$", _read(BUILD_BAT), re.MULTILINE | re.IGNORECASE)
     assert m, f"{key} not found in build.bat"
     return m.group(1).strip()
 
@@ -178,7 +178,7 @@ def test_generated_build_artifacts_are_not_required_tracked_files():
     the repository, so .gitignore must keep the whole directory out.
     """
     ignore = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8", errors="replace")
-    assert re.search(r"^package/?$", ignore, re.M), (
+    assert re.search(r"^package/?$", ignore, re.MULTILINE), (
         ".gitignore must ignore the package/ build directory"
     )
 
