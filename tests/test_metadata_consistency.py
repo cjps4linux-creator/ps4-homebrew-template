@@ -50,9 +50,29 @@ def _bat_value(key: str) -> str:
 
 
 def _gp4_content_id() -> str:
-    m = re.search(r'content_id="([^"]+)"', _read(GP4))
-    assert m, "content_id not found in pkg.gp4"
-    return m.group(1)
+    """The content id the GP4 generator is told to stamp into the project file.
+
+    ``package/pkg.gp4`` is a build artifact: the Makefile and build.bat both
+    generate it with ``create-gp4 --content-id=$(CONTENT_ID)``.  It is therefore
+    absent from a fresh clone, and it must not be tracked.  The authoritative
+    declaration is the ``--content-id=`` flag in the Makefile, which is what
+    this helper reads.  If a locally built pkg.gp4 is present it is checked
+    too, so a stale artifact cannot silently disagree with the source.
+    """
+    m = re.search(r"--content-id=\$\(CONTENT_ID\)", _read(MAKEFILE))
+    assert m, "Makefile does not declare --content-id=$(CONTENT_ID)"
+
+    declared = _makefile_value("CONTENT_ID")
+
+    if GP4.exists():
+        built = re.search(r'content_id="([^"]+)"', _read(GP4))
+        assert built, "content_id not found in pkg.gp4"
+        assert built.group(1) == declared, (
+            "the locally built package/pkg.gp4 disagrees with the Makefile: "
+            f"{built.group(1)} != {declared} — delete package/ and rebuild"
+        )
+
+    return declared
 
 
 # ---------------------------------------------------------------------------
@@ -142,13 +162,25 @@ def test_header_has_include_guard():
         "include/template_config.h",
         "src/main.cpp",
         "sce_sys/icon0.png",
-        "package/pkg.gp4",
         "LICENSE",
         "README.md",
     ],
 )
 def test_required_file_exists(rel):
     assert (REPO_ROOT / rel).exists(), f"missing required file: {rel}"
+
+
+def test_generated_build_artifacts_are_not_required_tracked_files():
+    """package/ is a build output directory and must stay untracked.
+
+    ``package/`` holds the generated pkg.gp4, the built .pkg and the staged
+    sce_sys assets.  Tracking any of it would put a multi-megabyte binary in
+    the repository, so .gitignore must keep the whole directory out.
+    """
+    ignore = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8", errors="replace")
+    assert re.search(r"^package/?$", ignore, re.M), (
+        ".gitignore must ignore the package/ build directory"
+    )
 
 
 def test_icon_is_a_real_png():
