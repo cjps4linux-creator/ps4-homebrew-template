@@ -49,3 +49,17 @@ jobs:
             test -f "$f" || { echo "missing $f"; exit 1; }
           done
           echo "docs present"
+
+  pin-check:
+    name: Dependency pins
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check dependency pins
+        # Fails the build on a pre-release version specifier or a
+        # toolchain version that has drifted from the validated pins.
+        # See scripts/pin_guard.py.
+        run: python scripts/pin_guard.py .
