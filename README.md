@@ -1,5 +1,9 @@
 # PS4 Homebrew Template
 
+<p align="center">
+  <a href="https://github.com/cjps4linux-creator/ps4-homebrew-template/actions/workflows/ci.yml"><img src="https://github.com/cjps4linux-creator/ps4-homebrew-template/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+</p>
+
 A reusable OpenOrbis project scaffold for building PS4 homebrew `.pkg` files on Windows, Linux, and macOS.
 
 ## Prerequisites
