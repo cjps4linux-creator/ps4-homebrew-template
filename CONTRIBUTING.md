@@ -14,4 +14,4 @@ Thank you for your interest in contributing.
 - Ensure CI passes before requesting review.
 
 ## Contact
-Conrad CJ Wilson — conradcjwilson0@gmail.com
+Conrad CJ Wilson  -  conradcjwilson0@gmail.com

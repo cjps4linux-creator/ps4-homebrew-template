@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
     printf("[TEMPLATE] PID: %d\n", argc);
 
     // -------------------------------------------------------------------------
-    // Graphics demo (commented — requires complete VideoOut headers)
+    // Graphics demo (commented  -  requires complete VideoOut headers)
     // -------------------------------------------------------------------------
     // TODO: Uncomment after adding these missing definitions:
     //   - SCE_VIDEO_OUT_BUS_TYPE_MAIN
@@ -45,6 +45,6 @@ int main(int argc, char* argv[]) {
         for (int i = 0; i < 100000000; i++) { }
     }
 
-    // Never reached — PS4 expects apps to run forever
+    // Never reached  -  PS4 expects apps to run forever
     return 0;
 }

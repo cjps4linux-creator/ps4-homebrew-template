@@ -179,7 +179,7 @@ def _version_is_pre_release(version: str) -> bool:
             parsed = _Version(version)
         except InvalidVersion:
             # Not a PEP 440 version. Fall through to the regex so that
-            # non-standard markers are still caught.
+            # [lorem]-standard markers are still caught.
             return bool(_PRE_RELEASE_SUFFIX.match(version))
         # A post-release of a pre-release (1.0.0b1.post1) is still a
         # pre-release; a plain post-release is not.

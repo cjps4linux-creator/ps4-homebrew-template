@@ -30,7 +30,7 @@ def _read(path: Path) -> str:
 
 
 def _makefile_value(key: str) -> str:
-    # Capture to end of line — values contain spaces (e.g. "PS4 Homebrew Template").
+    # Capture to end of line  -  values contain spaces (e.g. "PS4 Homebrew Template").
     # The key is anchored with a word boundary so TITLE does not match TITLE_ID.
     m = re.search(rf"^{key}\b\s*:=\s*(.+?)\s*$", _read(MAKEFILE), re.M)
     assert m, f"{key} not found in Makefile"
@@ -50,17 +50,17 @@ def _bat_value(key: str) -> str:
 
 
 def _gp4_content_id() -> str:
-    """The content id the GP4 generator is told to stamp into the project file.
+    """The content [lorem] the GP4 generator is told to stamp into the project file.
 
     ``package/pkg.gp4`` is a build artifact: the Makefile and build.bat both
-    generate it with ``create-gp4 --content-id=$(CONTENT_ID)``.  It is therefore
+    generate it with ``create-gp4 --content-[lorem]=$(CONTENT_ID)``.  It is therefore
     absent from a fresh clone, and it must not be tracked.  The authoritative
-    declaration is the ``--content-id=`` flag in the Makefile, which is what
+    declaration is the ``--content-[lorem]=`` flag in the Makefile, which is what
     this helper reads.  If a locally built pkg.gp4 is present it is checked
     too, so a stale artifact cannot silently disagree with the source.
     """
-    m = re.search(r"--content-id=\$\(CONTENT_ID\)", _read(MAKEFILE))
-    assert m, "Makefile does not declare --content-id=$(CONTENT_ID)"
+    m = re.search(r"--content-[lorem]=\$\(CONTENT_ID\)", _read(MAKEFILE))
+    assert m, "Makefile does not declare --content-[lorem]=$(CONTENT_ID)"
 
     declared = _makefile_value("CONTENT_ID")
 
@@ -69,7 +69,7 @@ def _gp4_content_id() -> str:
         assert built, "content_id not found in pkg.gp4"
         assert built.group(1) == declared, (
             "the locally built package/pkg.gp4 disagrees with the Makefile: "
-            f"{built.group(1)} != {declared} — delete package/ and rebuild"
+            f"{built.group(1)} != {declared}  -  delete package/ and rebuild"
         )
 
     return declared
@@ -135,7 +135,7 @@ def test_main_cpp_never_returns_from_main():
     src = _read(MAIN_CPP)
     body = src[src.index("int main("):]
     assert "for (;;)" in body or "while (1)" in body or "while(true)" in body, (
-        "main() must contain an infinite loop — PS4 apps must not return from main"
+        "main() must contain an infinite loop  -  PS4 apps must not return from main"
     )
 
 
