@@ -99,9 +99,9 @@ ps4-homebrew-template/
 
 ## Notes
 
-- **STL is not supported** by the current toolchain — use C or C++ without STL
-- **Heap is limited** to ~700-800MB — use Direct Memory for large buffers
-- **Never return from main()** — PS4 apps must loop forever
+- **STL is not supported** by the current toolchain  -  use C or C++ without STL
+- **Heap is limited** to ~700-800MB  -  use Direct Memory for large buffers
+- **Never return from main()**  -  PS4 apps must loop forever
 - **All file paths** use `/app0/` prefix for sandboxed data access
 
 ## References
@@ -112,4 +112,4 @@ ps4-homebrew-template/
 
 ---
 
-Built by **Conrad CJ Wilson** — [GitHub](https://github.com/cjps4linux-creator) · [LinkedIn](https://linkedin.com/in/conradcjwilson)
+Built by **Conrad CJ Wilson**  -  [GitHub](https://github.com/cjps4linux-creator) · [LinkedIn](https://linkedin.com/in/conradcjwilson)
